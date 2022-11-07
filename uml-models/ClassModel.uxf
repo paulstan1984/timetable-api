@@ -1,0 +1,55 @@
+<diagram program="umletino" version="15.0.0"><zoom_level>10</zoom_level><element><id>UMLClass</id><coordinates><x>0</x><y>170</y><w>100</w><h>80</h></coordinates><panel_attributes>PhisicalResource
+-
+Name
+Description
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>340</x><y>170</y><w>140</w><h>80</h></coordinates><panel_attributes>TimeUnit
+-
+Name
+Type: munite | hour
+Duration: int</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>190</x><y>170</y><w>100</w><h>60</h></coordinates><panel_attributes>Service
+-
+Name: string</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>280</x><y>180</y><w>80</w><h>40</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
+</panel_attributes><additional_attributes>10;20;60;20</additional_attributes></element><element><id>Relation</id><coordinates><x>90</x><y>200</y><w>120</w><h>30</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>100;10;10;10</additional_attributes></element><element><id>UMLNote</id><coordinates><x>550</x><y>240</y><w>300</w><h>140</h></coordinates><panel_attributes>Example:
+--
+Phisical Resource: Teren Tenis
+TimeUnit: o oră, 60 mins
+Service: Închiriere teren tenis o ora
+Reservation: A service for a client at a given time
+Timetable: a list of 7 open days
+Open Day: a list of Open times start / end
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>10</x><y>330</y><w>100</w><h>90</h></coordinates><panel_attributes>Client
+-
+Email
+Phone
+Name</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>150</x><y>330</y><w>210</w><h>90</h></coordinates><panel_attributes>Reservation
+-
+StartTime: DateTime
+State: Pending, Approved, Cancelled
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>100</x><y>360</y><w>70</w><h>40</h></coordinates><panel_attributes>lt=-&gt;&gt;&gt;&gt;&gt;
+</panel_attributes><additional_attributes>50;20;10;20</additional_attributes></element><element><id>Relation</id><coordinates><x>230</x><y>220</y><w>30</w><h>130</h></coordinates><panel_attributes>lt=-&gt;
+</panel_attributes><additional_attributes>10;110;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>110</x><y>490</y><w>130</w><h>90</h></coordinates><panel_attributes>OpenTime
+-
+StartTime: Hour/Min
+EndTime: Hour/Min</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>400</x><y>490</y><w>130</w><h>90</h></coordinates><panel_attributes>OpenDay
+-
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>230</x><y>530</y><w>190</w><h>40</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
+m2=n</panel_attributes><additional_attributes>170;10;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>410</x><y>330</y><w>130</w><h>90</h></coordinates><panel_attributes>Timetable
+-
+Name
+Description
+StartDate
+EndDate</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>470</x><y>410</y><w>40</w><h>100</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
+m2=7</panel_attributes><additional_attributes>10;10;10;80</additional_attributes></element><element><id>Relation</id><coordinates><x>350</x><y>370</y><w>80</w><h>40</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-&gt;
+m2=n</panel_attributes><additional_attributes>60;10;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>170</x><y>0</y><w>150</w><h>90</h></coordinates><panel_attributes>ServiceProvider
+-
+Phone
+Name
+Email</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>30</x><y>20</y><w>160</w><h>170</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
+</panel_attributes><additional_attributes>140;20;10;20;10;150</additional_attributes></element><element><id>Relation</id><coordinates><x>230</x><y>80</y><w>30</w><h>110</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
+</panel_attributes><additional_attributes>10;10;10;90</additional_attributes></element><element><id>Relation</id><coordinates><x>310</x><y>30</y><w>230</w><h>320</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
+</panel_attributes><additional_attributes>10;10;210;10;210;300</additional_attributes></element><element><id>UMLNote</id><coordinates><x>550</x><y>30</y><w>300</w><h>140</h></coordinates><panel_attributes>Example:
+--
+Service Provider: Baza sportiva Tenis 
+PhisicalResource: are 10 terenuri de tenis
+TimeTable: orar de functionare
+Servuice: Se inchiriaa terenurile cu ora</panel_attributes><additional_attributes></additional_attributes></element></diagram>
