@@ -104,13 +104,13 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('service_providers');
-        Schema::dropIfExists('phisical_resources');
-        Schema::dropIfExists('time_units');
+        Schema::dropIfExists('reservations');
+        Schema::dropIfExists('opentimes');
+        Schema::dropIfExists('opendays');
         Schema::dropIfExists('clients');
         Schema::dropIfExists('timetables');
-        Schema::dropIfExists('opendays');
-        Schema::dropIfExists('opentimes');
-        Schema::dropIfExists('reservations');
+        Schema::dropIfExists('phisical_resources');
+        Schema::dropIfExists('service_providers');
+        Schema::dropIfExists('time_units');
     }
 };
