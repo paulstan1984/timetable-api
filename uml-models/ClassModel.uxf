@@ -2,14 +2,11 @@
 -
 Name
 Description
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>340</x><y>170</y><w>140</w><h>80</h></coordinates><panel_attributes>TimeUnit
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>190</x><y>170</y><w>100</w><h>60</h></coordinates><panel_attributes>Service
 -
-Name
+Name: string
 Type: munite | hour
-Duration: int</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>190</x><y>170</y><w>100</w><h>60</h></coordinates><panel_attributes>Service
--
-Name: string</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>280</x><y>180</y><w>80</w><h>40</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
-</panel_attributes><additional_attributes>10;20;60;20</additional_attributes></element><element><id>Relation</id><coordinates><x>90</x><y>200</y><w>120</w><h>30</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>100;10;10;10</additional_attributes></element><element><id>UMLNote</id><coordinates><x>550</x><y>240</y><w>300</w><h>140</h></coordinates><panel_attributes>Example:
+Duration: int</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>90</x><y>200</y><w>120</w><h>30</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>100;10;10;10</additional_attributes></element><element><id>UMLNote</id><coordinates><x>550</x><y>240</y><w>300</w><h>140</h></coordinates><panel_attributes>Example:
 --
 Phisical Resource: Teren Tenis
 TimeUnit: o oră, 60 mins

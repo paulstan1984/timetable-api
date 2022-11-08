@@ -32,14 +32,6 @@ return new class extends Migration
             $table->foreign('service_provider_id')->references('id')->on('service_providers');
         });
 
-        Schema::create('time_units', function (Blueprint $table) {
-            $table->id();
-            $table->string('name', 20);
-            $table->string('type', 10);
-            $table->integer('duration');
-            $table->timestamps();
-        });
-
         Schema::create('clients', function (Blueprint $table) {
             $table->id();
             $table->string('name', 100);
@@ -81,6 +73,18 @@ return new class extends Migration
 
         });
 
+        Schema::create('services', function (Blueprint $table) {
+            $table->id();
+            $table->string('name', 100);
+            $table->string('type', 10);
+            $table->integer('duration');
+
+            //the id of the phisical resource
+            $table->unsignedBigInteger('phisical_resource_id');
+            $table->foreign('phisical_resource_id')->references('id')->on('phisical_resources');
+
+        });
+
         Schema::create('reservations', function (Blueprint $table) {
             $table->id();
             $table->datetime('start_time');
@@ -94,6 +98,9 @@ return new class extends Migration
             $table->unsignedBigInteger('timetable_id');
             $table->foreign('timetable_id')->references('id')->on('timetables');
 
+            //the id of the service
+            $table->unsignedBigInteger('service_id');
+            $table->foreign('service_id')->references('id')->on('services');
         });
     }
 
@@ -105,12 +112,12 @@ return new class extends Migration
     public function down()
     {
         Schema::dropIfExists('reservations');
-        Schema::dropIfExists('opentimes');
-        Schema::dropIfExists('opendays');
-        Schema::dropIfExists('clients');
+        Schema::dropIfExists('services');
+        Schema::dropIfExists('open_times');
+        Schema::dropIfExists('open_days');
         Schema::dropIfExists('timetables');
+        Schema::dropIfExists('clients');
         Schema::dropIfExists('phisical_resources');
         Schema::dropIfExists('service_providers');
-        Schema::dropIfExists('time_units');
     }
 };
