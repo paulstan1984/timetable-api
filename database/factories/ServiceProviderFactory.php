@@ -17,7 +17,9 @@ class ServiceProviderFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'name' => fake()->name(),
+            'phone' => str_replace('.', '', fake()->phoneNumber()),
+            'email' => fake()->unique()->safeEmail(),
         ];
     }
 }
