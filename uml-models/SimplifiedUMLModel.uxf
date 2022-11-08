@@ -1,0 +1,28 @@
+<diagram program="umletino" version="15.0.0"><zoom_level>10</zoom_level><element><id>UMLClass</id><coordinates><x>220</x><y>290</y><w>190</w><h>130</h></coordinates><panel_attributes>PhisicalResource
+-
+Name
+Description
+WeeklyTimetable: json
+ScheduleType: minute | hour
+ScheduleUnits: int[]
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>550</x><y>290</y><w>210</w><h>120</h></coordinates><panel_attributes>Reservation
+-
+StartTime: DateTime
+State: Pending, Approved, Cancelled
+ClientEmail
+ClientName
+ClientPhone</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLNote</id><coordinates><x>500</x><y>50</y><w>300</w><h>160</h></coordinates><panel_attributes>Example:
+--
+PhisicalResource: Teren Tenis
+ weeklyTimetable : {
+L: 8-20
+M:
+...
+}
+Inchiriere: ora
+TipRezervari: 1, 2, 4</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>400</x><y>340</y><w>170</w><h>30</h></coordinates><panel_attributes>lt=-&gt;&gt;&gt;&gt;</panel_attributes><additional_attributes>150;10;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>210</x><y>90</y><w>190</w><h>130</h></coordinates><panel_attributes>ServiceProvider
+-
+Name
+Description
+
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>300</x><y>210</y><w>30</w><h>100</h></coordinates><panel_attributes>lt=-&gt;&gt;&gt;&gt;&gt;</panel_attributes><additional_attributes>10;80;10;10</additional_attributes></element></diagram>
