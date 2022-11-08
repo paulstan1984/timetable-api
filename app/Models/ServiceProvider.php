@@ -16,12 +16,4 @@ class ServiceProvider extends Model
     {
         return $this->hasMany(PhisicalResource::class);
     }
-
-    /**
-     * Get the timetables for the service provider.
-     */
-    public function timetables()
-    {
-        return $this->hasMany(Timetable::class);
-    }
 }

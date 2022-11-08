@@ -10,26 +10,10 @@ class Reservation extends Model
     use HasFactory;
 
     /**
-     * Get the service associated with the reservation.
+     * Get the resource of the reservation.
      */
-    public function service()
+    public function phisical_resource()
     {
-        return $this->hasOne(Service::class);
-    }
-
-    /**
-     * Get the client associated with the reservation.
-     */
-    public function client()
-    {
-        return $this->hasOne(Client::class);
-    }
-
-    /**
-     * Get the timetable associated with the reservation.
-     */
-    public function timetable()
-    {
-        return $this->hasOne(Timetable::class);
+        return $this->hasOne(PhisicalResource::class);
     }
 }
