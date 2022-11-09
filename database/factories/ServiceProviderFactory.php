@@ -18,7 +18,7 @@ class ServiceProviderFactory extends Factory
     {
         return [
             'name' => fake()->name(),
-            'phone' => str_replace('.', '', fake()->phoneNumber()),
+            'phone' => fake()->numerify('##########'),
             'email' => fake()->unique()->safeEmail(),
         ];
     }

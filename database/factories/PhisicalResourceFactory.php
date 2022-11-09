@@ -18,8 +18,7 @@ class PhisicalResourceFactory extends Factory
     {
         return [
             'name' => fake()->name(),
-            'phone' => str_replace('.', '', fake()->phoneNumber()),
-            'email' => fake()->unique()->safeEmail(),
+            
         ];
     }
 }
