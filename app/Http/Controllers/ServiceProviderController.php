@@ -12,17 +12,25 @@ class ServiceProviderController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        //
-    }
-
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @OA\Get(
+     *     path="/service-providers",
+     *     tags={"ServiceProvider"},
+     *     summary="demo swagger documentation: returns information about service providers",
+     *     description="returns an array of service providers",
+     *     operationId="searchServiceProviders",
+     *     @OA\Response(
+     *         response=200,
+     *         description="successful operation",
+     *         @OA\JsonContent(
+     *         )
+     *     ),
+     *     security={
+     *         {"api_key": {}}
+     *     }
+     * )
      */
-    public function create()
+    public function index()
     {
         //
     }
@@ -45,17 +53,6 @@ class ServiceProviderController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(ServiceProvider $serviceProvider)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\ServiceProvider  $serviceProvider
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(ServiceProvider $serviceProvider)
     {
         //
     }
