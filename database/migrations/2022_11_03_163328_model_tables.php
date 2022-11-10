@@ -45,7 +45,10 @@ return new class extends Migration
             $table->string('client_email', 200);
             
             $table->datetime('start_time');
-            $table->string('state');//Pending, Approved, Cancelled
+            $table->string('schedule_unit');
+            $table->string('state')->default('Pending');//Pending, Approved, Cancelled
+
+            $table->timestamps();
 
             //the id of the service
             $table->unsignedBigInteger('phisical_resource_id');

@@ -17,7 +17,9 @@ class ReservationFactory extends Factory
     public function definition()
     {
         return [
-            
+            'client_name' => fake()->name(),
+            'client_phone' => fake()->numerify('##########'),
+            'client_email' => fake()->unique()->safeEmail(),
         ];
     }
 }
