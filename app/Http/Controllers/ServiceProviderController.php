@@ -35,6 +35,17 @@ class ServiceProviderController extends Controller
         //
     }
 
+    public function search($keyword = null)
+    {
+        // here -> implement services and use dependency injection for generating queries
+        if(!empty($keyword)){
+            return ServiceProvider::where('name', 'like', '%' . $keyword . '%')->get();
+        }
+        else{
+            return ServiceProvider::all()->makeHidden(['created_at', 'updated_at']);
+        }
+    }
+
     /**
      * Store a newly created resource in storage.
      *

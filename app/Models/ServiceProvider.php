@@ -9,6 +9,8 @@ class ServiceProvider extends Model
 {
     use HasFactory;
 
+    
+
     /**
      * Get the phisical resources for the service provider.
      */
