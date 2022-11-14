@@ -4,9 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Models\ServiceProvider;
 use Illuminate\Http\Request;
+use App\Services\DatabaseRepository;
 
 class ServiceProviderController extends Controller
 {
+
+    var $databaseRepository;
+
+    public function __construct(DatabaseRepository $databaseRepository) {
+        $this->databaseRepository = $databaseRepository;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -37,13 +45,7 @@ class ServiceProviderController extends Controller
 
     public function search($keyword = null)
     {
-        // here -> implement services and use dependency injection for generating queries
-        if(!empty($keyword)){
-            return ServiceProvider::where('name', 'like', '%' . $keyword . '%')->get();
-        }
-        else{
-            return ServiceProvider::all()->makeHidden(['created_at', 'updated_at']);
-        }
+        return $this->databaseRepository->search($keyword);
     }
 
     /**
