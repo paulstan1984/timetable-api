@@ -4,15 +4,19 @@ namespace App\Http\Controllers;
 
 use App\Models\ServiceProvider;
 use Illuminate\Http\Request;
-use App\Services\DatabaseRepository;
+use App\Services\ServiceProviderRepository;
+use App\Services\PaginationService;
+use Illuminate\Support\Facades\Validator;
 
 class ServiceProviderController extends Controller
 {
 
-    var $databaseRepository;
+    var $serviceProviderRepository;
+    var $paginationService;
 
-    public function __construct(DatabaseRepository $databaseRepository) {
-        $this->databaseRepository = $databaseRepository;
+    public function __construct(ServiceProviderRepository $serviceProviderRepository, PaginationService $paginationService) {
+        $this->serviceProviderRepository = $serviceProviderRepository;
+        $this->paginationService = $paginationService; 
     }
 
     /**
@@ -45,7 +49,12 @@ class ServiceProviderController extends Controller
 
     public function search($keyword = null)
     {
-        return $this->databaseRepository->search($keyword);
+        $query = $this->serviceProviderRepository->search($keyword);
+        $query = $query->orderBy('name', 'asc');
+
+        $pagination = $this->paginationService->applyPagination($query, 1);
+
+        return $pagination;
     }
 
     /**
@@ -56,7 +65,19 @@ class ServiceProviderController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|unique:service_providers|max:100',
+            'phone' => 'required|max:10',
+            'email' => 'required|unique:service_providers|max:200',
+        ]);
+
+        if($validator->fails()){
+            return response()->json($validator->messages(), 404);
+        } 
+
+        $item = $this->serviceProviderRepository->create($validator->validated());
+
+        return response()->json($item, 200);
     }
 
     /**
@@ -67,7 +88,7 @@ class ServiceProviderController extends Controller
      */
     public function show(ServiceProvider $serviceProvider)
     {
-        //
+        return $serviceProvider;
     }
 
     /**

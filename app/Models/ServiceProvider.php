@@ -9,7 +9,8 @@ class ServiceProvider extends Model
 {
     use HasFactory;
 
-    
+    var $hidden = ['created_at', 'updated_at'];
+    var $fillable = ['name', 'phone', 'email']; 
 
     /**
      * Get the phisical resources for the service provider.

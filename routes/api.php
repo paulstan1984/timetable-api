@@ -19,5 +19,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::apiResource('service-provides', ServiceProviderController::class);
-Route::get('service-providers/search/{keyword?}', [ServiceProviderController::class, 'search']);
+Route::apiResource('service-providers', ServiceProviderController::class);
+Route::get('service-providers-search/{keyword?}', [ServiceProviderController::class, 'search']);
