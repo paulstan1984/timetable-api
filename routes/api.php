@@ -20,4 +20,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::apiResource('service-providers', ServiceProviderController::class);
-Route::get('service-providers-search/{keyword?}', [ServiceProviderController::class, 'search']);
+Route::get('service-providers-search/{page?}/{keyword?}', [ServiceProviderController::class, 'search']);

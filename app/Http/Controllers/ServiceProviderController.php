@@ -49,14 +49,12 @@ class ServiceProviderController extends Controller
         return $this->search();
     }
 
-    public function search($keyword = null)
+    public function search($page = 1, $keyword = null)
     {
-        //here add page, last record id, etc
-
         $query = $this->serviceProviderRepository->search($keyword);
         $query = $query->orderBy('name', 'asc');
 
-        $pagination = $this->paginationService->applyPagination($query, 1);
+        $pagination = $this->paginationService->applyPagination($query, $page);
 
         return $pagination;
     }
