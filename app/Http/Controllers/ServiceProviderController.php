@@ -51,6 +51,8 @@ class ServiceProviderController extends Controller
 
     public function search($keyword = null)
     {
+        //here add page, last record id, etc
+
         $query = $this->serviceProviderRepository->search($keyword);
         $query = $query->orderBy('name', 'asc');
 
@@ -106,8 +108,14 @@ class ServiceProviderController extends Controller
      * @param  \App\Models\ServiceProvider  $serviceProvider
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, ServiceProvider $serviceProvider)
+    public function update(Request $request, int $Id)
     {
+        $serviceProvider = ServiceProvider::find($Id);
+
+        if ($serviceProvider == null) {
+            return response()->json(['error' => 'not found'], 400);
+        }
+
         $validator = Validator::make($request->all(), [
             'name' => ['required','max:100', Rule::unique('service_providers')->ignore($serviceProvider->id)],
             'phone' => 'required|max:10',
