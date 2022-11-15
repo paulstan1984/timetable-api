@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Services\ServiceProviderRepository;
 use App\Services\PaginationService;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class ServiceProviderController extends Controller
 {
@@ -14,9 +15,10 @@ class ServiceProviderController extends Controller
     var $serviceProviderRepository;
     var $paginationService;
 
-    public function __construct(ServiceProviderRepository $serviceProviderRepository, PaginationService $paginationService) {
+    public function __construct(ServiceProviderRepository $serviceProviderRepository, PaginationService $paginationService)
+    {
         $this->serviceProviderRepository = $serviceProviderRepository;
-        $this->paginationService = $paginationService; 
+        $this->paginationService = $paginationService;
     }
 
     /**
@@ -44,7 +46,7 @@ class ServiceProviderController extends Controller
      */
     public function index()
     {
-        //
+        return $this->search();
     }
 
     public function search($keyword = null)
@@ -71,9 +73,9 @@ class ServiceProviderController extends Controller
             'email' => 'required|unique:service_providers|max:200',
         ]);
 
-        if($validator->fails()){
+        if ($validator->fails()) {
             return response()->json($validator->messages(), 404);
-        } 
+        }
 
         $item = $this->serviceProviderRepository->create($validator->validated());
 
@@ -86,9 +88,15 @@ class ServiceProviderController extends Controller
      * @param  \App\Models\ServiceProvider  $serviceProvider
      * @return \Illuminate\Http\Response
      */
-    public function show(ServiceProvider $serviceProvider)
+    public function show(int $Id)
     {
-        return $serviceProvider;
+        $serviceProvider = ServiceProvider::find($Id);
+
+        if ($serviceProvider == null) {
+            return response()->json(['error' => 'not found'], 400);
+        }
+
+        return response()->json($serviceProvider, 200);
     }
 
     /**
@@ -100,7 +108,19 @@ class ServiceProviderController extends Controller
      */
     public function update(Request $request, ServiceProvider $serviceProvider)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'name' => ['required','max:100', Rule::unique('service_providers')->ignore($serviceProvider->id)],
+            'phone' => 'required|max:10',
+            'email' => ['required','max:200', Rule::unique('service_providers')->ignore($serviceProvider->id)],
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->messages(), 404);
+        }
+
+        $this->serviceProviderRepository->update($serviceProvider, $validator->validated());
+
+        return response()->json(ServiceProvider::find($serviceProvider->id), 200);
     }
 
     /**
@@ -109,8 +129,16 @@ class ServiceProviderController extends Controller
      * @param  \App\Models\ServiceProvider  $serviceProvider
      * @return \Illuminate\Http\Response
      */
-    public function destroy(ServiceProvider $serviceProvider)
+    public function destroy(int $Id)
     {
-        //
+        $serviceProvider = ServiceProvider::find($Id);
+
+        if ($serviceProvider == null) {
+            return response()->json(['error' => 'not found'], 400);
+        }
+
+        $this->serviceProviderRepository->delete($serviceProvider);
+
+        return response()->json(true, 200);
     }
 }
