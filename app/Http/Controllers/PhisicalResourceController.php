@@ -73,10 +73,16 @@ class PhisicalResourceController extends Controller
      * @param  \App\Models\PhisicalResource  $phisicalResource
      * @return \Illuminate\Http\Response
      */
-    public function show(PhisicalResource $phisicalResource)
+    public function show(int $Id)
     {
-        //
-    }
+        $item = PhisicalResource::find($Id);
+
+        if ($item == null) {
+            return response()->json(['error' => 'not found'], 400);
+        }
+
+        return response()->json($item, 200);
+     }
 
     /**
      * Update the specified resource in storage.
