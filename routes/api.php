@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ServiceProviderController;
+use App\Http\Controllers\PhisicalResourceController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,3 +22,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::apiResource('service-providers', ServiceProviderController::class);
 Route::get('service-providers-search/{page?}/{keyword?}', [ServiceProviderController::class, 'search']);
+Route::get('service-providers/{provider_id}/phisical-resources', [ServiceProviderController::class, 'get_phisical_resources']);
+
+Route::get('phisical-resources-search/{page?}/{keyword?}', [PhisicalResourceController::class, 'search']);

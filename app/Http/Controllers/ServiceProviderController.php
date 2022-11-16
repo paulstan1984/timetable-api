@@ -59,6 +59,19 @@ class ServiceProviderController extends Controller
         return $pagination;
     }
 
+    public function get_phisical_resources(int $provider_id)
+    {
+        $serviceProvider = ServiceProvider::find($provider_id);
+
+        if ($serviceProvider == null) {
+            return response()->json(['error' => 'not found'], 400);
+        }
+
+        $resources = $serviceProvider->phisical_resources()->get();
+
+        return response()->json($resources, 200);
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -115,9 +128,9 @@ class ServiceProviderController extends Controller
         }
 
         $validator = Validator::make($request->all(), [
-            'name' => ['required','max:100', Rule::unique('service_providers')->ignore($serviceProvider->id)],
+            'name' => ['required', 'max:100', Rule::unique('service_providers')->ignore($serviceProvider->id)],
             'phone' => 'required|max:10',
-            'email' => ['required','max:200', Rule::unique('service_providers')->ignore($serviceProvider->id)],
+            'email' => ['required', 'max:200', Rule::unique('service_providers')->ignore($serviceProvider->id)],
         ]);
 
         if ($validator->fails()) {
