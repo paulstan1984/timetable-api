@@ -93,7 +93,7 @@ class PhisicalResourceController extends Controller
      */
     public function update(Request $request, PhisicalResource $phisicalResource)
     {
-        //
+        //aici
     }
 
     /**
@@ -102,8 +102,16 @@ class PhisicalResourceController extends Controller
      * @param  \App\Models\PhisicalResource  $phisicalResource
      * @return \Illuminate\Http\Response
      */
-    public function destroy(PhisicalResource $phisicalResource)
+    public function destroy(int $Id)
     {
-        //
+        $item = PhisicalResource::find($Id);
+
+        if ($item == null) {
+            return response()->json(['error' => 'not found'], 400);
+        }
+
+        $this->repository->delete($item);
+
+        return response()->json(true, 200);
     }
 }
