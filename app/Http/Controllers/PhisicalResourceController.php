@@ -6,6 +6,8 @@ use App\Models\PhisicalResource;
 use Illuminate\Http\Request;
 use App\Services\PhisicalResourceRepository;
 use App\Services\PaginationService;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class PhisicalResourceController extends Controller
 {
@@ -46,7 +48,23 @@ class PhisicalResourceController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'name' => ['required', 'max:100', Rule::unique('phisical_resources')->where(fn ($query) => $query->where('service_provider_id', $request->service_provider_id))],
+            'description' => ['required', 'max:1000'],
+            'weekly_timetable' => ['required'],
+            'schedule_type' => ['required', Rule::in(['minute', 'hour'])],
+            'schedule_units' => ['required'],
+            'open' => ['required', Rule::in(['1', '0'])],
+            'service_provider_id' => ['required', Rule::exists('service_providers', 'id')]
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->messages(), 404);
+        }
+
+        $item = $this->repository->create($validator->validated());
+
+        return response()->json($item, 200);
     }
 
     /**
