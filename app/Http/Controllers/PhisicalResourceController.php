@@ -82,7 +82,7 @@ class PhisicalResourceController extends Controller
         }
 
         return response()->json($item, 200);
-     }
+    }
 
     /**
      * Update the specified resource in storage.
@@ -91,9 +91,36 @@ class PhisicalResourceController extends Controller
      * @param  \App\Models\PhisicalResource  $phisicalResource
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, PhisicalResource $phisicalResource)
+    public function update(Request $request, int $Id)
     {
-        //aici
+        $item = PhisicalResource::find($Id);
+
+        if ($item == null) {
+            return response()->json(['error' => 'not found'], 400);
+        }
+
+        $validator = Validator::make($request->all(), [
+            'name' => [
+                'required', 'max:100',
+                Rule::unique('phisical_resources')
+                    ->ignore($item->id)
+                    ->where(fn ($query) => $query->where('service_provider_id', $request->service_provider_id))
+            ],
+            'description' => ['required', 'max:1000'],
+            'weekly_timetable' => ['required'],
+            'schedule_type' => ['required', Rule::in(['minute', 'hour'])],
+            'schedule_units' => ['required'],
+            'open' => ['required', Rule::in(['1', '0'])],
+            'service_provider_id' => ['required', Rule::exists('service_providers', 'id')]
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->messages(), 404);
+        }
+
+        $item = $this->repository->update($item, $validator->validated());
+
+        return response()->json(PhisicalResource::find($Id), 200);
     }
 
     /**
