@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ServiceProviderController;
 use App\Http\Controllers\PhisicalResourceController;
+use App\Http\Controllers\ReservationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,3 +27,6 @@ Route::get('service-providers/{provider_id}/phisical-resources', [ServiceProvide
 
 Route::apiResource('phisical-resources', PhisicalResourceController::class);
 Route::get('phisical-resources-search/{page?}/{keyword?}', [PhisicalResourceController::class, 'search']);
+
+Route::apiResource('reservations', ReservationController::class);
+Route::get('reservations-search/{page?}/{keyword?}', [ReservationController::class, 'search']);

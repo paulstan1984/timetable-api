@@ -14,14 +14,6 @@ class PhisicalResource extends Model
     var $hidden = ['created_at', 'updated_at', 'service_provider_id', 'service_provider'];
     var $appends = ['service_provider_name'];
 
-    /**
-     * Get the reservations of the phisical resource.
-     */
-    public function reservations()
-    {
-        return $this->hasMany(Reservation::class);
-    }
-
     public function service_provider()
     {
         return $this->belongsTo(ServiceProvider::class);
