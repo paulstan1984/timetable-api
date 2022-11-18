@@ -29,4 +29,4 @@ Route::apiResource('phisical-resources', PhisicalResourceController::class);
 Route::get('phisical-resources-search/{page?}/{keyword?}', [PhisicalResourceController::class, 'search']);
 
 Route::apiResource('reservations', ReservationController::class);
-Route::get('reservations-search/{page?}/{keyword?}', [ReservationController::class, 'search']);
+Route::get('reservations-search/{page?}/{keyword?}/{start_time?}/{end_time?}', [ReservationController::class, 'search']);

@@ -83,7 +83,7 @@ class ServiceProviderController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required|unique:service_providers|max:100',
             'phone' => 'required|max:10',
-            'email' => 'required|unique:service_providers|max:200',
+            'email' => 'required|unique:service_providers|max:200|email',
         ]);
 
         if ($validator->fails()) {
@@ -130,7 +130,7 @@ class ServiceProviderController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => ['required', 'max:100', Rule::unique('service_providers')->ignore($serviceProvider->id)],
             'phone' => 'required|max:10',
-            'email' => ['required', 'max:200', Rule::unique('service_providers')->ignore($serviceProvider->id)],
+            'email' => ['required', 'email', 'max:200', Rule::unique('service_providers')->ignore($serviceProvider->id)],
         ]);
 
         if ($validator->fails()) {

@@ -31,9 +31,9 @@ class ReservationController extends Controller
 
     }
     
-    public function search($page = 1, $keyword = null)
+    public function search($page = 1, $keyword = null, $start_time = null, $end_time = null)
     {
-        $query = $this->repository->search($keyword);
+        $query = $this->repository->search($keyword, $start_time, $end_time);
         $query = $query->orderBy('start_time', 'desc');
 
         $pagination = $this->paginationService->applyPagination($query, $page);
@@ -50,9 +50,12 @@ class ReservationController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'name' => 'required|unique:service_providers|max:100',
-            'phone' => 'required|max:10',
-            'email' => 'required|unique:service_providers|max:200',
+            'client_name' => 'required|max:100',
+            'client_phone' => 'required|max:10',
+            'client_email' => 'required|max:200|email',
+            'start_time' => 'required|date|after_or_equal:tomorrow',
+            'schedule_unit' => 'required|integer|gte:1',
+            'phisical_resource_id' => ['required','integer', Rule::exists('phisical_resources', 'id')],
         ]);
 
         if ($validator->fails()) {
@@ -62,7 +65,6 @@ class ReservationController extends Controller
         $item = $this->repository->create($validator->validated());
 
         return response()->json($item, 200);
-        //
     }
 
     /**
@@ -99,9 +101,12 @@ class ReservationController extends Controller
         }
 
         $validator = Validator::make($request->all(), [
-            'name' => ['required', 'max:100', Rule::unique('service_providers')->ignore($serviceProvider->id)],
-            'phone' => 'required|max:10',
-            'email' => ['required', 'max:200', Rule::unique('service_providers')->ignore($serviceProvider->id)],
+            'client_name' => 'required|max:100',
+            'client_phone' => 'required|max:10',
+            'client_email' => 'required|max:200|email',
+            'start_time' => 'required|date|after_or_equal:tomorrow',
+            'schedule_unit' => 'required|integer|gte:1',
+            'phisical_resource_id' => ['required','integer', Rule::exists('phisical_resources', 'id')],
         ]);
 
         if ($validator->fails()) {

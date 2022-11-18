@@ -13,7 +13,7 @@ class ReservationRepository
         return Reservation::create($item);
     }
 
-    public function search(string $keyword = null)
+    public function search(string $keyword = null, $start_time = null, $end_time = null)
     {
         $query = Reservation::with('phisical_resource.service_provider');
 
@@ -28,6 +28,17 @@ class ReservationRepository
                         ->orWhere('description', 'like', '%' . $keyword . '%');
                 });
         }
+
+        if (!empty($start_time)) {
+            $query = $query
+                ->where('start_time', '>=', $start_time);
+        }
+
+        if (!empty($end_time)) {
+            $query = $query
+                ->where('start_time', '<=', $end_time);
+        }
+
         return $query;
     }
 
