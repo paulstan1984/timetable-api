@@ -23,8 +23,8 @@ class PhisicalResource extends Model
     protected function scheduleUnits(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) => json_decode($value),
-            set: fn ($value) => json_encode($value)
+            get: fn ($value) => toKeyValueArray($value),
+            set: fn ($value) => fromKeyValueArray($value)
         );
     }
 
