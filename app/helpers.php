@@ -10,8 +10,12 @@ function toKeyValueArray(string $value, string $keyName = 'key', string $valueNa
     return $secondArray;
 }
 
-function fromKeyValueArray(array $keyValueArray, string $keyName = 'key', string $valueName = 'value')
+function fromKeyValueArray(array | string $keyValueArray, string $keyName = 'key', string $valueName = 'value')
 {
+    if(is_string($keyValueArray)){
+        return $keyValueArray;
+    }
+
     $secondArray = [];
     foreach ($keyValueArray as $elem) {
         $secondArray[] = $elem[$keyName];
@@ -39,8 +43,12 @@ function decodeTimeTable(string $timetable)
     return $secondArray;
 }
 
-function encodeTimeTable(array $timetable)
+function encodeTimeTable(array | string $timetable)
 {
+    if(is_string($timetable)){
+        return $timetable;
+    }
+
     $secondArray = [];
     foreach ($timetable as $dayTimetable) {
         $secondArray[$dayTimetable['day']] = [];
