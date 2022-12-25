@@ -53,7 +53,7 @@ function encodeTimeTable(array | string $timetable)
     foreach ($timetable as $dayTimetable) {
         $secondArray[$dayTimetable['day']] = [];
 
-        foreach($dayTimetable['day'] as $elem){
+        foreach($dayTimetable['timetable'] as $elem){
             $secondArray[$dayTimetable['day']][]=$elem['start'];
             $secondArray[$dayTimetable['day']][]=$elem['end'];
         }
