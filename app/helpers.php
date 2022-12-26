@@ -18,10 +18,9 @@ function fromKeyValueArray(array | string $keyValueArray, string $keyName = 'key
 
     $secondArray = [];
     foreach ($keyValueArray as $elem) {
-        $secondArray[] = $elem[$keyName];
-        $secondArray[] = $elem[$valueName];
+        $secondArray[$elem[$keyName]] = $elem[$valueName];
     }
-    return $secondArray;
+    return json_encode($secondArray);
 }
 
 function decodeTimeTable(string $timetable)
