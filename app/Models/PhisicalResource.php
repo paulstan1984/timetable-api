@@ -11,7 +11,7 @@ class PhisicalResource extends Model
     use HasFactory;
 
     var $fillable = ['name', 'description', 'weekly_timetable', 'schedule_type', 'schedule_units', 'open', 'service_provider_id']; 
-    var $hidden = ['created_at', 'updated_at', 'service_provider_id', 'service_provider'];
+    var $hidden = ['created_at', 'updated_at', 'service_provider'];
     var $appends = ['service_provider_name'];
 
     public function service_provider()
