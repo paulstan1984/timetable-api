@@ -110,7 +110,7 @@ class PhisicalResourceController extends Controller
             'weekly_timetable' => ['required'],
             'schedule_type' => ['required', Rule::in(['minute', 'hour'])],
             'schedule_units' => ['required'],
-            'open' => ['required', Rule::in(['1', '0', true, false])],
+            'open' => ['required', Rule::in(['1', '0'])],
             'service_provider_id' => ['required', Rule::exists('service_providers', 'id')]
         ]);
 
