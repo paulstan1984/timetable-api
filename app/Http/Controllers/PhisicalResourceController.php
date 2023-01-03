@@ -30,9 +30,14 @@ class PhisicalResourceController extends Controller
         return $this->search();
     }
 
-    public function search($page = 1, $keyword = null)
+    public function search($page = 1, $keyword = null, $service_provider_id = 0)
     {
         $query = $this->repository->search($keyword);
+
+        if($service_provider_id != 0){
+            $query = $query->where('service_provider_id', $service_provider_id);
+        }
+
         $query = $query->orderBy('name', 'asc');
 
         $pagination = $this->paginationService->applyPagination($query, $page);

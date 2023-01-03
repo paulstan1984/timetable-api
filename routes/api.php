@@ -26,7 +26,7 @@ Route::get('service-providers-search/{page?}/{keyword?}', [ServiceProviderContro
 Route::get('service-providers/{provider_id}/phisical-resources', [ServiceProviderController::class, 'get_phisical_resources']);
 
 Route::apiResource('phisical-resources', PhisicalResourceController::class);
-Route::get('phisical-resources-search/{page?}/{keyword?}', [PhisicalResourceController::class, 'search']);
+Route::get('phisical-resources-search/{page?}/{keyword?}/{service_provider_id?}', [PhisicalResourceController::class, 'search']);
 
 Route::apiResource('reservations', ReservationController::class);
 Route::get('reservations-search/{page?}/{keyword?}/{start_time?}/{end_time?}', [ReservationController::class, 'search']);

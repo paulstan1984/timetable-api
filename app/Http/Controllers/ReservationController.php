@@ -53,7 +53,7 @@ class ReservationController extends Controller
             'client_name' => 'required|max:100',
             'client_phone' => 'required|max:10',
             'client_email' => 'required|max:200|email',
-            'start_time' => 'required|date|after_or_equal:tomorrow',
+            'start_time' => 'required|date',
             'schedule_unit' => 'required|integer|gte:1',
             'phisical_resource_id' => ['required','integer', Rule::exists('phisical_resources', 'id')],
         ]);
@@ -104,7 +104,7 @@ class ReservationController extends Controller
             'client_name' => 'required|max:100',
             'client_phone' => 'required|max:10',
             'client_email' => 'required|max:200|email',
-            'start_time' => 'required|date|after_or_equal:tomorrow',
+            'start_time' => 'required|date',
             'schedule_unit' => 'required|integer|gte:1',
             'phisical_resource_id' => ['required','integer', Rule::exists('phisical_resources', 'id')],
         ]);
