@@ -31,6 +31,11 @@ class UserRepository
         return false;
     }
 
+    public function getUserByToken(string $token)
+    {
+        return User::where('access_token', $token)->first();
+    }
+
     public function create($item)
     {
         return User::create($item);

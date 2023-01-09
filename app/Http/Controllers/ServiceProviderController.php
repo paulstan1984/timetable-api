@@ -8,6 +8,7 @@ use App\Services\ServiceProviderRepository;
 use App\Services\PaginationService;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
+use App\Models\User;
 
 class ServiceProviderController extends Controller
 {
@@ -49,8 +50,10 @@ class ServiceProviderController extends Controller
         return $this->search();
     }
 
-    public function search($page = 1, $keyword = null)
+    public function search($page = 1, $keyword = null, User $user)
     {
+        return response()->json($user);
+        
         $query = $this->serviceProviderRepository->search($keyword);
         $query = $query->orderBy('name', 'asc');
 
