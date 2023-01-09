@@ -35,6 +35,8 @@ class ValidateAccessToken
             return response()->json(['error' => 'forbidden'], 403);
         }
 
-        return $next($request, $user);
+        $request->merge(['user' => $user]);
+
+        return $next($request);
     }
 }

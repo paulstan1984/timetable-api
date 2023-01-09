@@ -50,10 +50,8 @@ class ServiceProviderController extends Controller
         return $this->search();
     }
 
-    public function search($page = 1, $keyword = null, User $user)
-    {
-        return response()->json($user);
-        
+    public function search($page = 1, $keyword = null)
+    {       
         $query = $this->serviceProviderRepository->search($keyword);
         $query = $query->orderBy('name', 'asc');
 
