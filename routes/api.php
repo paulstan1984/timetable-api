@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ServiceProviderController;
 use App\Http\Controllers\PhisicalResourceController;
 use App\Http\Controllers\ReservationController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,3 +31,12 @@ Route::get('phisical-resources-search/{page?}/{keyword?}/{service_provider_id?}'
 
 Route::apiResource('reservations', ReservationController::class);
 Route::get('reservations-search/{page?}/{keyword?}/{start_time?}/{end_time?}', [ReservationController::class, 'search']);
+
+Route::post('login', [UserController::class, 'login']);
+Route::post('logout', [UserController::class, 'logout']);
+
+
+/***
+ * To Do:
+ *  - create a middleware to read and validate the access_token
+ */
