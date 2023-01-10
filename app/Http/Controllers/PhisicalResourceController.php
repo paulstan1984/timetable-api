@@ -58,6 +58,10 @@ class PhisicalResourceController extends Controller
      */
     public function store(Request $request)
     {
+        if ($request->user->role == User::SERVICE_PROVIDER) {
+            $request->merge(['service_provider_id' => $request->user->service_provider_id]);
+        }
+
         $validator = Validator::make($request->all(), [
             'name' => ['required', 'max:100', Rule::unique('phisical_resources')->where(fn ($query) => $query->where('service_provider_id', $request->service_provider_id))],
             'description' => ['required', 'max:1000'],
@@ -83,12 +87,18 @@ class PhisicalResourceController extends Controller
      * @param  \App\Models\PhisicalResource  $phisicalResource
      * @return \Illuminate\Http\Response
      */
-    public function show(int $Id)
+    public function show(Request $request, int $Id)
     {
         $item = PhisicalResource::find($Id);
 
         if ($item == null) {
             return response()->json(['error' => 'not found'], 400);
+        }
+
+        if ($request->user->role == User::SERVICE_PROVIDER) {
+            if ($item->service_provider_id != $request->user->service_provider_id) {
+                return response()->json(['error' => 'not found'], 400);
+            }
         }
 
         return response()->json($item, 200);
@@ -107,6 +117,14 @@ class PhisicalResourceController extends Controller
 
         if ($item == null) {
             return response()->json(['error' => 'not found'], 400);
+        }
+
+        if ($request->user->role == User::SERVICE_PROVIDER) {
+            if ($item->service_provider_id != $request->user->service_provider_id) {
+                return response()->json(['error' => 'not found'], 400);
+            }
+
+            $request->merge(['service_provider_id' => $request->user->service_provider_id]);
         }
 
         $validator = Validator::make($request->all(), [
@@ -139,12 +157,18 @@ class PhisicalResourceController extends Controller
      * @param  \App\Models\PhisicalResource  $phisicalResource
      * @return \Illuminate\Http\Response
      */
-    public function destroy(int $Id)
+    public function destroy(Request $request, int $Id)
     {
         $item = PhisicalResource::find($Id);
 
         if ($item == null) {
             return response()->json(['error' => 'not found'], 400);
+        }
+
+        if ($request->user->role == User::SERVICE_PROVIDER) {
+            if ($item->service_provider_id != $request->user->service_provider_id) {
+                return response()->json(['error' => 'not found'], 400);
+            }
         }
 
         $this->repository->delete($item);

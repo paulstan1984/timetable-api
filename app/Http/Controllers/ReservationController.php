@@ -8,6 +8,8 @@ use App\Services\ReservationRepository;
 use App\Services\PaginationService;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
+use App\Models\User;
+use Illuminate\Database\Eloquent\Builder;
 
 class ReservationController extends Controller
 {
@@ -25,15 +27,26 @@ class ReservationController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return $this->search();
-
+        return $this->search($request, 1);
     }
     
-    public function search($page = 1, $keyword = null, $start_time = null, $end_time = null)
+    public function search(Request $request, $page = 1, $keyword = null, $start_time = null, $end_time = null)
     {
         $query = $this->repository->search($keyword, $start_time, $end_time);
+
+        $service_provider_id = 0;
+        if ($request->user->role == User::SERVICE_PROVIDER) {
+            $service_provider_id = $request->user->service_provider_id;
+        }
+
+        if ($service_provider_id != 0) {
+            $query = $query->whereHas('phisical_resource',  function (Builder $query) use ($service_provider_id) {
+                $query->where('service_provider_id', $service_provider_id);
+            });;
+        }
+
         $query = $query->orderBy('start_time', 'desc');
 
         $pagination = $this->paginationService->applyPagination($query, $page);
@@ -49,6 +62,8 @@ class ReservationController extends Controller
      */
     public function store(Request $request)
     {
+        //aici: check if the reservation is for the current serice provider
+        
         $validator = Validator::make($request->all(), [
             'client_name' => 'required|max:100',
             'client_phone' => 'required|max:10',
