@@ -22,7 +22,7 @@ class ValidateAccessToken
      * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
      * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
      */
-    public function handle(Request $request, Closure $next)
+    public function handle(Request $request, Closure $next, $role)
     {
         $token = $request->header('Authorization');
         if (empty($token)) {
@@ -33,6 +33,12 @@ class ValidateAccessToken
 
         if (empty($user)) {
             return response()->json(['error' => 'forbidden'], 403);
+        }
+
+        if (!empty($role)) {
+            if ($user->role != $role) {
+                return response()->json(['error' => 'unauthorized'], 401);
+            }
         }
 
         $request->merge(['user' => $user]);

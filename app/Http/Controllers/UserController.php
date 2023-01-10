@@ -52,6 +52,11 @@ class UserController extends Controller
         return response()->json($token, 200);
     }
 
+    public function profile(Request $request)
+    {
+        return response()->json($request->user, 200);
+    }
+
     /**
      * Display a listing of the resource.
      *

@@ -7,6 +7,7 @@ use App\Http\Controllers\PhisicalResourceController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\UserController;
 use \App\Http\Middleware\ValidateAccessToken;
+use \App\Models\User;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,22 +24,27 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::middleware(['access_token'])->group(function () {
+Route::middleware(['access_token:'.User::ADMIN])->group(function () {
     Route::apiResource('service-providers', ServiceProviderController::class);
     Route::get('service-providers-search/{page?}/{keyword?}', [ServiceProviderController::class, 'search']);
     Route::get('service-providers/{provider_id}/phisical-resources', [ServiceProviderController::class, 'get_phisical_resources']);
+});
 
+Route::middleware(['access_token:'])->group(function () {
     Route::apiResource('phisical-resources', PhisicalResourceController::class);
     Route::get('phisical-resources-search/{page?}/{keyword?}/{service_provider_id?}', [PhisicalResourceController::class, 'search']);
 
     Route::apiResource('reservations', ReservationController::class);
     Route::get('reservations-search/{page?}/{keyword?}/{start_time?}/{end_time?}', [ReservationController::class, 'search']);
+
+    Route::get('profile', [UserController::class, 'profile']);
+
 });
 
 Route::withoutMiddleware([ValidateAccessToken::class])->group(function () {
 
-    Route::post('/login', [UserController::class, 'login']);
-    Route::post('/logout', [UserController::class, 'logout']);
+    Route::post('login', [UserController::class, 'login']);
+    Route::post('logout', [UserController::class, 'logout']);
 });
 
 /***
