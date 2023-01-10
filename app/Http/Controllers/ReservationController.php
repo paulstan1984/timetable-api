@@ -9,6 +9,7 @@ use App\Services\PaginationService;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use App\Models\User;
+use App\Models\PhisicalResource;
 use Illuminate\Database\Eloquent\Builder;
 
 class ReservationController extends Controller
@@ -31,7 +32,7 @@ class ReservationController extends Controller
     {
         return $this->search($request, 1);
     }
-    
+
     public function search(Request $request, $page = 1, $keyword = null, $start_time = null, $end_time = null)
     {
         $query = $this->repository->search($keyword, $start_time, $end_time);
@@ -62,16 +63,26 @@ class ReservationController extends Controller
      */
     public function store(Request $request)
     {
-        //aici: check if the reservation is for the current serice provider
-        
         $validator = Validator::make($request->all(), [
             'client_name' => 'required|max:100',
             'client_phone' => 'required|max:10',
             'client_email' => 'required|max:200|email',
             'start_time' => 'required|date',
             'schedule_unit' => 'required|integer|gte:1',
-            'phisical_resource_id' => ['required','integer', Rule::exists('phisical_resources', 'id')],
+            'phisical_resource_id' => ['required', 'integer', Rule::exists('phisical_resources', 'id')],
         ]);
+
+        if ($request->user->role == User::SERVICE_PROVIDER) {
+            $phisican_resource = PhisicalResource::find($request->phisical_resource_id);
+
+            if ($phisican_resource == null) {
+                return response()->json(['error' => 'not found'], 400);
+            }
+
+            if ($phisican_resource->service_provider_id != $request->user->service_provider_id) {
+                return response()->json(['error' => 'forbidden'], 400);
+            }
+        }
 
         if ($validator->fails()) {
             return response()->json($validator->messages(), 404);
@@ -88,7 +99,7 @@ class ReservationController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request, $id)
     {
         $item = Reservation::find($id);
 
@@ -96,8 +107,13 @@ class ReservationController extends Controller
             return response()->json(['error' => 'not found'], 400);
         }
 
+        if ($request->user->role == User::SERVICE_PROVIDER) {
+            if ($item->phisican_resource->service_provider_id != $request->user->service_provider_id) {
+                return response()->json(['error' => 'forbidden'], 400);
+            }
+        }
+
         return response()->json($item, 200);
- 
     }
 
     /**
@@ -115,14 +131,32 @@ class ReservationController extends Controller
             return response()->json(['error' => 'not found'], 400);
         }
 
+        if ($request->user->role == User::SERVICE_PROVIDER) {
+            if ($item->phisican_resource->service_provider_id != $request->user->service_provider_id) {
+                return response()->json(['error' => 'forbidden'], 400);
+            }
+        }
+
         $validator = Validator::make($request->all(), [
             'client_name' => 'required|max:100',
             'client_phone' => 'required|max:10',
             'client_email' => 'required|max:200|email',
             'start_time' => 'required|date',
             'schedule_unit' => 'required|integer|gte:1',
-            'phisical_resource_id' => ['required','integer', Rule::exists('phisical_resources', 'id')],
+            'phisical_resource_id' => ['required', 'integer', Rule::exists('phisical_resources', 'id')],
         ]);
+
+        if ($request->user->role == User::SERVICE_PROVIDER) {
+            $phisican_resource = PhisicalResource::find($request->phisical_resource_id);
+
+            if ($phisican_resource == null) {
+                return response()->json(['error' => 'not found'], 400);
+            }
+
+            if ($phisican_resource->service_provider_id != $request->user->service_provider_id) {
+                return response()->json(['error' => 'forbidden'], 400);
+            }
+        }
 
         if ($validator->fails()) {
             return response()->json($validator->messages(), 404);
@@ -139,12 +173,18 @@ class ReservationController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
         $item = Reservation::find($id);
 
         if ($item == null) {
             return response()->json(['error' => 'not found'], 400);
+        }
+
+        if ($request->user->role == User::SERVICE_PROVIDER) {
+            if ($item->phisican_resource->service_provider_id != $request->user->service_provider_id) {
+                return response()->json(['error' => 'forbidden'], 400);
+            }
         }
 
         $this->repository->delete($item);
