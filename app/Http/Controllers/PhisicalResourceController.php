@@ -8,6 +8,7 @@ use App\Services\PhisicalResourceRepository;
 use App\Services\PaginationService;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
+use App\Models\User;
 
 class PhisicalResourceController extends Controller
 {
@@ -25,16 +26,20 @@ class PhisicalResourceController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return $this->search();
+        return $this->search($request, 1);
     }
 
-    public function search($page = 1, $keyword = null, $service_provider_id = 0)
+    public function search(Request $request, $page = 1, $keyword = null, $service_provider_id = 0)
     {
         $query = $this->repository->search($keyword);
 
-        if($service_provider_id != 0){
+        if ($request->user->role == User::SERVICE_PROVIDER) {
+            $service_provider_id = $request->user->service_provider_id;
+        }
+
+        if ($service_provider_id != 0) {
             $query = $query->where('service_provider_id', $service_provider_id);
         }
 
