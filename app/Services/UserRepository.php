@@ -36,6 +36,16 @@ class UserRepository
         return User::where('access_token', $token)->first();
     }
 
+    public function getUserByRememberToken(string $token)
+    {
+        return User::where('remember_token', $token)->first();
+    }
+
+    public function getUserByEmail(string $email)
+    {
+        return User::where('email', $email)->first();
+    }
+
     public function create($item)
     {
         return User::create($item);

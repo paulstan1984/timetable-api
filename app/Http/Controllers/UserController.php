@@ -33,6 +33,10 @@ class UserController extends Controller
         $item = $validator->validated();
         $token = $this->repository->login($item);
 
+        if(empty($token)) {
+            return response()->json(['password' => ['incorrect login']], 404);
+        }
+
         return response()->json($token, 200);
     }
 
@@ -55,6 +59,55 @@ class UserController extends Controller
     public function profile(Request $request)
     {
         return response()->json($request->user, 200);
+    }
+
+    public function getForgotPasswordToken(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email|max:100'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->messages(), 404);
+        }
+
+        $item = $validator->validated();
+        $user = $this->repository->getUserByEmail($item['email']);
+
+        if(empty($user)) {
+            return response()->json(['email' => ['not found']], 400);
+        }
+
+        $user->remember_token = md5(date('Y-m-d H:i:s'));
+        $this->repository->update($user, ['remember_token' => $user->remember_token]);
+
+        //to do: send the email notification
+
+        return response()->json(['remember_token' => $user->remember_token], 200);
+    }
+
+    public function resetPassword(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'remember_token' => 'required',
+            'password' => 'required|max:10',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->messages(), 404);
+        }
+
+        $item = $validator->validated();
+        $user = $this->repository->getUserByRememberToken($item['remember_token']);
+
+        if(empty($user)) {
+            return response()->json(['error' => 'not found'], 400);
+        }
+
+        $pass = User::HashPass($item['password']);
+        $this->repository->update($user, ['password' => $pass, 'remember_token' => '']);
+
+        return response()->json(['update_password' => true], 200);
     }
 
     /**

@@ -45,6 +45,8 @@ Route::withoutMiddleware([ValidateAccessToken::class])->group(function () {
 
     Route::post('login', [UserController::class, 'login']);
     Route::post('logout', [UserController::class, 'logout']);
+    Route::post('forgot-password', [UserController::class, 'getForgotPasswordToken']);
+    Route::post('reset-password', [UserController::class, 'resetPassword']);
 });
 
 /***
