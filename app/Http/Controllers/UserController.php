@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Services\UserRepository;
 use App\Services\PaginationService;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\ResetPassword;
 
 class UserController extends Controller
 {
@@ -82,6 +84,7 @@ class UserController extends Controller
         $this->repository->update($user, ['remember_token' => $user->remember_token]);
 
         //to do: send the email notification
+        Mail::to($user->email)->send(new ResetPassword(env('ADMINAPP_URL').'/reset-password/' . $user->remember_token));
 
         return response()->json(['remember_token' => $user->remember_token], 200);
     }
