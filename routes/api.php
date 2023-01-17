@@ -28,6 +28,7 @@ Route::middleware(['access_token:'.User::ADMIN])->group(function () {
     Route::apiResource('service-providers', ServiceProviderController::class);
     Route::get('service-providers-search/{page?}/{keyword?}', [ServiceProviderController::class, 'search']);
     Route::get('service-providers/{provider_id}/phisical-resources', [ServiceProviderController::class, 'get_phisical_resources']);
+
 });
 
 Route::middleware(['access_token:'])->group(function () {
@@ -38,7 +39,6 @@ Route::middleware(['access_token:'])->group(function () {
     Route::get('reservations-search/{page?}/{keyword?}/{start_time?}/{end_time?}', [ReservationController::class, 'search']);
 
     Route::get('profile', [UserController::class, 'profile']);
-
 });
 
 Route::withoutMiddleware([ValidateAccessToken::class])->group(function () {
